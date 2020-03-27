@@ -32,7 +32,7 @@ jobs:
 
     - name: Skip Step
       run: |
-        echo Did't skip?
+        echo "Did't skip?"
       if: ${{ steps.cfg.outputs.flag }} == yes
 
     - name: Env Dump
