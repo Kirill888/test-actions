@@ -21,5 +21,10 @@ jobs:
     - name: Work Step
       run: |
         echo "Env variable KK: __${KK}__"
-        echo "Output variable kk: __${{ steps.cfg.kk }}__"
+        echo "Output variable kk: __${{ steps.cfg.outputs.kk }}__"
 
+    - name: Env Dump
+      run: |
+        env | grep GITHUB_
+        echo ==============
+        env
