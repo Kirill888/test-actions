@@ -14,17 +14,27 @@ jobs:
     - name: Config 
       id: cfg
       run: |
+        echo PATH:${PATH}
         KK="this is KK $(date)"
+        echo "${KK}
+
         echo ::set-env name=KK::${KK}
         echo ::set-output name=kk::${KK}
+        echo ::add-path::${GITHUB_WORKSPACE}/.github/workflows/bin
 
     - name: Work Step
       run: |
         echo "Env variable KK: __${KK}__"
         echo "Output variable kk: __${{ steps.cfg.outputs.kk }}__"
+        echo PATH: ${PATH}
+        kk-test.sh a1 a2 a3 ${KK}
+
 
     - name: Env Dump
       run: |
+        echo PATH:${PATH}
         env | grep GITHUB_
+        echo ==============
+        cat ${GITHUB_EVENT_PATH}
         echo ==============
         env
