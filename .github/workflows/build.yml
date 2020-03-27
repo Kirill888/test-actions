@@ -35,6 +35,8 @@ jobs:
         echo PATH:${PATH}
         env | grep GITHUB_
         echo ==============
+        echo ${GITHUB_EVENT_PATH}
         cat ${GITHUB_EVENT_PATH}
+        echo 
         echo ==============
         env
