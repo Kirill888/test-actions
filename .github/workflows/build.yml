@@ -20,6 +20,7 @@ jobs:
 
         echo "::set-env name=KK::${KK}"
         echo "::set-output name=kk::${KK}"
+        echo "::set-output name=flag::no"
         echo "::add-path::${GITHUB_WORKSPACE}/.github/workflows/bin"
 
     - name: Work Step
@@ -29,6 +30,10 @@ jobs:
         echo PATH: ${PATH}
         kk-test.sh a1 a2 a3 ${KK}
 
+    - name: Skip Step
+      run: |
+        echo Did't skip?
+      if: ${{ steps.cfg.outputs.flag }} == yes
 
     - name: Env Dump
       run: |
