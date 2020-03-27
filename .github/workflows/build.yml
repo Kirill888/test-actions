@@ -19,7 +19,7 @@ jobs:
         echo ::set-output name=kk::${KK}
 
     - name: Work Step
-      run:
+      run: |
         echo "Env variable KK: __${KK}__"
         echo "Output variable kk: __${{ steps.cfg.kk }}__"
 
