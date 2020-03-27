@@ -16,11 +16,11 @@ jobs:
       run: |
         echo PATH:${PATH}
         KK="this is KK $(date)"
-        echo "${KK}
+        echo "${KK}"
 
-        echo ::set-env name=KK::${KK}
-        echo ::set-output name=kk::${KK}
-        echo ::add-path::${GITHUB_WORKSPACE}/.github/workflows/bin
+        echo "::set-env name=KK::${KK}"
+        echo "::set-output name=kk::${KK}"
+        echo "::add-path::${GITHUB_WORKSPACE}/.github/workflows/bin"
 
     - name: Work Step
       run: |
