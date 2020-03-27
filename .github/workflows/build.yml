@@ -21,4 +21,5 @@ jobs:
     - name: Work Step
       run:
         echo "Env variable KK: __${KK}__"
-        echo "Output variable kk: " __${{ steps.cfg.kk }}__
+        echo "Output variable kk: __${{ steps.cfg.kk }}__"
+
