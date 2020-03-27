@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Config 
+    - name: Config Stage
       id: cfg
       run: |
         echo PATH:${PATH}
