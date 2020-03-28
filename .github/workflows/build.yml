@@ -38,11 +38,7 @@ jobs:
 
     - name: List Changed Files
       run: |
-        if [ ${GITHUB_EVENT_NAME} = push ]; then
-           git diff --name-only $(jq -r '.before,.after' "${GITHUB_EVENT_PATH}") || echo "Force pushed?"
-        else
-           git diff --name-only $(jq -r '.pull_request.base.sha,.pull_request.head.sha' "${GITHUB_EVENT_PATH}")
-        fi
+        list-changed-files
 
     - name: Work Step
       run: |
