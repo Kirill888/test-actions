@@ -64,6 +64,8 @@ Above only works on pushes, PRs are different:
 git diff --name-only $(jq -r '.pull_request.base.sha,.pull_request.head.sha' ${GITHUB_EVENT_PATH})
 ```
 
+First commit to branch sets `.before` to all zeros, so need different mechanism to find changed files.
+
 ### Tags
 
 ```
@@ -97,5 +99,17 @@ Event json has `.before` set to all zeros.
 Get PR title/text:
 
 ```
-jq -r .pull_request.title,.pull_request.body ${GITHUB_EVENT_PATH}
+jq -r '.pull_request|.title,.body' ${GITHUB_EVENT_PATH}
 ```
+
+
+### Event JSON
+
+Some paths of interest
+
+- `.repository.master_branch` name of the default branch
+- `.before` `.after` (on push), git SHA [last build sha|000..00], [current event sha]
+
+PR:
+- `.pull_request.head` -> `.pull_request.base`
+  - `.pull_request.{head,base}.{ref,sha,label}`
