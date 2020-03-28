@@ -39,7 +39,7 @@ jobs:
     - name: List Changed Files
       run: |
         jq -r '.before,.after' "${GITHUB_EVENT_PATH}"
-        git diff --name-only $(jq -r '.before,.after' "${GITHUB_EVENT_PATH}")
+        git diff --name-only $(jq -r '.before,.after' "${GITHUB_EVENT_PATH}") || echo "Force pushed?"
 
     - name: Work Step
       run: |
