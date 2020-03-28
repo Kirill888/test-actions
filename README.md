@@ -36,6 +36,10 @@ Note: have to checkout sufficient depth in your checkout step
         fetch-depth: 0
 ```
 
+This only works for non-forced pushes:
+
 ```bash
 git diff --name-only $(jq -r '.before,.after' ${GITHUB_EVENT_PATH})
 ```
+
+When force pushed `.before` hash might be absent from git history.
