@@ -64,6 +64,34 @@ Above only works on pushes, PRs are different:
 git diff --name-only $(jq -r '.pull_request.base.sha,.pull_request.head.sha' ${GITHUB_EVENT_PATH})
 ```
 
+### Tags
+
+```
+git tag -a v0.0.1 -m "Tag v0.0.1"
+git push origin v0.0.1
+```
+
+This triggers push event with following env:
+
+```
+GITHUB_EVENT_NAME=push
+GITHUB_REF=refs/tags/v0.0.1
+GITHUB_SHA=8c49433f5f2e2c884cb2dcd8dd67431ceb15b833
+```
+
+Event json has `.before` set to all zeros.
+
+```json
+{
+  "after": "2c2fd282218910f3cb9d00a629baeaad8b7570b0",
+  "base_ref": null,
+  "before": "0000000000000000000000000000000000000000",
+  "commits": [],
+  ...
+}
+```
+
+
 ### Pull Requests
 
 Get PR title/text:
