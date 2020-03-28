@@ -10,6 +10,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Env Dump
+      run: |
+        echo PATH:${PATH}
+        env | grep GITHUB_
+        echo ==============
+        echo ${GITHUB_EVENT_PATH}
+        cat ${GITHUB_EVENT_PATH}
+        echo
+        echo ==============
+        env
 
     - name: Config Stage
       id: cfg
@@ -23,6 +36,11 @@ jobs:
         echo "::set-output name=flag::no"
         echo "::add-path::${GITHUB_WORKSPACE}/.github/workflows/bin"
 
+    - name: List Changed Files
+      run: |
+        jq -r '.before,.after' "${GITHUB_EVENT_PATH}"
+        git diff --name-only $(jq -r '.before,.after' "${GITHUB_EVENT_PATH}")
+
     - name: Work Step
       run: |
         echo "Env variable KK: __${KK}__"
@@ -35,14 +53,3 @@ jobs:
       run: |
         echo "flag: ${{ steps.cfg.outputs.flag }}"
         echo "Did't skip?"
-
-    - name: Env Dump
-      run: |
-        echo PATH:${PATH}
-        env | grep GITHUB_
-        echo ==============
-        echo ${GITHUB_EVENT_PATH}
-        cat ${GITHUB_EVENT_PATH}
-        echo 
-        echo ==============
-        env
