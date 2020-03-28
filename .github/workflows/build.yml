@@ -40,6 +40,8 @@ jobs:
     - name: List Changed Files
       run: |
         list-changed-files || echo "Force push maybe?"
+        echo check refs
+        find .git/refs
 
     - name: Work Step
       run: |
