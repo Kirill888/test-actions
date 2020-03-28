@@ -13,6 +13,8 @@ get_base_and_head() {
                 read base head
                 if [ $base = "0000000000000000000000000000000000000000" ]; then
                     base=$(jq -r '"refs/heads/" + .repository.master_branch' ${GITHUB_EVENT_PATH})
+                    # will need to fetch refs in this case
+                    git fetch --prune --depth=1 origin '+refs/heads/*:refs/remotes/origin/*' > /dev/null
                 fi
                 echo "$base $head"
             }

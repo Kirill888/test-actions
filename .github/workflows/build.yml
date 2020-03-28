@@ -39,7 +39,7 @@ jobs:
 
     - name: List Changed Files
       run: |
-        list-changed-files
+        list-changed-files || echo "Force push maybe?"
 
     - name: Work Step
       run: |
