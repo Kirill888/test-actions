@@ -63,3 +63,11 @@ Above only works on pushes, PRs are different:
 ```bash
 git diff --name-only $(jq -r '.pull_request.base.sha,.pull_request.head.sha' ${GITHUB_EVENT_PATH})
 ```
+
+### Pull Requests
+
+Get PR title/text:
+
+```
+jq -r .pull_request.title,.pull_request.body ${GITHUB_EVENT_PATH}
+```
