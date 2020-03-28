@@ -31,7 +31,7 @@ jobs:
         kk-test.sh a1 a2 a3 ${KK}
 
     - name: Skip Step
-      if: ${{ steps.cfg.outputs.flag }} == 'yes'
+      if: steps.cfg.outputs.flag == 'yes'
       run: |
         echo "flag: ${{ steps.cfg.outputs.flag }}"
         echo "Did't skip?"
