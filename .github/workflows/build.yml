@@ -15,6 +15,7 @@ jobs:
 
     - name: Env Dump
       run: |
+        find .git/refs
         echo PATH:${PATH}
         env | grep GITHUB_
         echo ==============
@@ -38,11 +39,9 @@ jobs:
 
     - name: List Changed Files
       run: |
-        if [ ${GITHUB_EVENT_NAME} = push ]; then
-           git diff --name-only $(jq -r '.before,.after' "${GITHUB_EVENT_PATH}") || echo "Force pushed?"
-        else
-           git diff --name-only $(jq -r '.pull_request.base.sha,.pull_request.head.sha' "${GITHUB_EVENT_PATH}")
-        fi
+        list-changed-files || echo "Force push maybe?"
+        echo check refs
+        find .git/refs -type f
 
     - name: Work Step
       run: |

@@ -1,0 +1,32 @@
+#!/bin/bash
+# Figure out which files have changed since last build of GitHub Actions and
+# print them out
+
+set -o pipefail
+set -o nounset
+set -o errexit
+
+get_base_and_head() {
+    case ${GITHUB_EVENT_NAME} in
+        push)
+            jq -r '.before +" "+.after' ${GITHUB_EVENT_PATH} | {
+                read base head
+                if [ $base = "0000000000000000000000000000000000000000" ]; then
+                    # will need to fetch refs for "master" branch in this case
+                    master=$(jq -r '.repository.master_branch' ${GITHUB_EVENT_PATH})
+                    git fetch --quiet --no-tags --prune --depth=1 origin "${master}"
+                    base=$(git rev-parse "origin/${master}")
+                fi
+                echo "$base $head"
+            }
+            ;;
+        pull_request)
+            echo $(jq -r '.pull_request|.base,.head|.sha' "${GITHUB_EVENT_PATH}")
+            ;;
+        *)
+            false
+            ;;
+    esac
+}
+
+git diff --name-only $(get_base_and_head)
