@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Env Dump
+      run: |
+        find .git/refs
+        echo PATH:${PATH}
+        env | grep GITHUB_
+        echo ==============
+        echo ${GITHUB_EVENT_PATH}
+        cat ${GITHUB_EVENT_PATH}
+        echo
+        echo ==============
+        env
