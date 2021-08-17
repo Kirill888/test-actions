@@ -1,0 +1,40 @@
+name: Tests
+
+on:
+  push:
+
+jobs:
+  datacube-smoke-test:
+    name: ${{ matrix.os }}, ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.8]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+          conda-channels: conda-forge
+
+      - name: Install Env
+        shell: bash
+        run: |
+          conda config --prepend channels conda-forge
+          conda config --set channel_priority strict
+          conda create -n test python=${{ matrix.python-version }} datacube==1.8.4
+          conda activate test
+          conda env export
+          pip install git+https://github.com/opendatacube/datacube-core.git
+
+      - name: Check and Log Environment
+        shell: bash
+        run: |
+          conda activate test
+          python -V
+          datacube --version
