@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
         python-version: [3.8]
 
     steps:
@@ -28,9 +28,20 @@ jobs:
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
           conda create -n test python=${{ matrix.python-version }} datacube==1.8.4
+
+      - name: Check Env
+        shell: bash
+        run: |
           source activate test
           conda env export
-          pip install git+https://github.com/opendatacube/datacube-core.git
+
+      - name: Install Datacube in Dev mode
+        shell: bash
+        run: |
+          source activate test
+          git clone git+https://github.com/opendatacube/datacube-core.git
+          cd datacube-core
+          python -m pip install -e .
 
       - name: Check and Log Environment
         shell: bash
