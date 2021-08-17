@@ -28,13 +28,13 @@ jobs:
           conda config --prepend channels conda-forge
           conda config --set channel_priority strict
           conda create -n test python=${{ matrix.python-version }} datacube==1.8.4
-          conda activate test
+          source activate test
           conda env export
           pip install git+https://github.com/opendatacube/datacube-core.git
 
       - name: Check and Log Environment
         shell: bash
         run: |
-          conda activate test
+          source activate test
           python -V
           datacube --version
