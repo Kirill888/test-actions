@@ -39,7 +39,7 @@ jobs:
         shell: bash
         run: |
           source activate test
-          git clone git+https://github.com/opendatacube/datacube-core.git
+          git clone "https://github.com/opendatacube/datacube-core.git"
           cd datacube-core
           python -m pip install -e .
 
