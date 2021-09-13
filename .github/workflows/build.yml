@@ -13,6 +13,15 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Secrets Check
+      run: |
+        echo "KK_SECRET: ${KK_SECRET}"
+        echo "KK_SECRET_: ${KK_SECRET_}"
+
+      env:
+        KK_SECRET: ${{ secrets['kk1'] }}
+        KK_SECRET_: ${{ secrets.kk1 }}
+
     - name: Env Dump
       run: |
         find .git/refs
