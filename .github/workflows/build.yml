@@ -20,12 +20,31 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
+
     - name: Cfg
+      id: cfg
       env:
         MM: ${{ matrix.lib }}
-
       run: |
+        pkg="${MM/libs\//odc-}"
+        pkg="${pkg/apps\//odc-apps-}"
+        tk="pypi_token_${pkg//-/_}"
+
         echo "MM: __${MM}__"
+        echo "Package: ${pkg}, ${tk}"
+
+        echo "::set-output name=pkg::${pkg}"
+        echo "::set-output name=tk::${tk}"
+
+    - name: Fake Publish
+      env:
+        pypi_tk: ${{ secrets[ steps.cfg.outputs.tk ] }}
+        pkg: ${{ steps.cfg.outputs.pkg }}
+        tk_name: ${{ steps.cfg.outputs.tk }}
+      run: |
+        echo "pkg: ${pkg} ${tk_name}"
+        echo "pypi_tk: ${pypi_tk::3}..${pypi_tk:(-3)}
+        echo "pypi_tk: ${pypi_tk}
 
   build:
     runs-on: ubuntu-latest
