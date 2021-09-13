@@ -5,6 +5,28 @@ on:
   pull_request:
 
 jobs:
+  mm:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        lib:
+        - libs/cloud
+        - libs/io
+        - libs/stac
+        - apps/cloud
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Cfg
+      env:
+        MM: ${{ matrix.lib }}
+
+      run: |
+        echo "MM: __${MM}__"
+
   build:
     runs-on: ubuntu-latest
 
@@ -49,6 +71,7 @@ jobs:
     - name: List Changed Files
       run: |
         list-changed-files || echo "Force push maybe?"
+        echo "....................."
         echo check refs
         find .git/refs -type f
 
